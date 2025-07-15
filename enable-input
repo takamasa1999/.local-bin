@@ -1,0 +1,6 @@
+#!/bin/zsh
+# Enable both keyboard devices
+xinput enable 11
+xinput enable 17
+brightnessctl  --device='asus::kbd_backlight' s 3 > /dev/null
+xinput enable "ELAN1201:00 04F3:3098 Touchpad"

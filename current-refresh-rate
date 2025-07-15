@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+xrandr --current | awk '/^eDP/ {getline; print}' | grep -o '[0-9.]\+\*' | sed 's/\..*//' | sed 's/$/hz/'
+
+# autorandr --config | grep -A 5 "output eDP" | grep "rate" | awk '{print $2}' | sed 's/\..*//;s/$/hz/'

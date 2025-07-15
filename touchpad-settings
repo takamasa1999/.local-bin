@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+xinput set-prop "ELAN1201:00 04F3:3098 Touchpad" "libinput Tapping Enabled" 1
+xinput set-prop "ELAN1201:00 04F3:3098 Touchpad" "libinput Natural Scrolling Enabled" 1
+xinput set-prop "ELAN1201:00 04F3:3098 Touchpad" "libinput Scrolling Pixel Distance" 50
+xinput set-prop "ELAN1201:00 04F3:3098 Touchpad" "libinput Disable While Typing Enabled" 1

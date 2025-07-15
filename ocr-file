@@ -1,0 +1,47 @@
+#!/bin/zsh
+
+# This script takes a file path as an input argument,
+# generates an output file path by removing the extension,
+# and then runs tesseract to create a searchable PDF.
+
+# --- 1. Input Validation ---
+# Check if an argument was provided. If not, print usage info and exit.
+if [[ $# -eq 0 ]]; then
+    echo "Error: No input file specified."
+    echo "Usage: $(basename $0) <path_to_image_file>"
+    exit 1
+fi
+
+# --- 2. Path Preparation ---
+# Get the full, absolute path of the input file.
+# In Zsh, the ":a" modifier on a parameter expansion resolves it to an absolute path.
+input_file_path="${1:a}"
+
+# Check if the resolved file path actually exists and is a regular file.
+if [[ ! -f "$input_file_path" ]]; then
+    echo "Error: File not found at '$input_file_path'"
+    exit 1
+fi
+
+# Prepare the base for the output file path by removing the file extension.
+# In Zsh, the ":r" modifier gives the "root" of the filename (removes extension).
+output_dir_base="${input_file_path:r}_OCR"
+
+
+# --- 3. Command Execution ---
+# Display the paths that will be used to the user for confirmation.
+echo "----------------------------------------"
+echo "Input file:      $input_file_path"
+echo "Output basename: $output_dir_base"
+echo "----------------------------------------"
+echo "Executing Tesseract command..."
+echo ""
+
+# Execute the tesseract command.
+# Tesseract will automatically append the ".pdf" extension to the output file.
+tesseract "$input_file_path" "$output_dir_base" pdf
+
+# --- 4. Completion Message ---
+echo ""
+echo "✅ Tesseract processing complete."
+echo "Output should be located at: ${output_dir_base}.pdf"

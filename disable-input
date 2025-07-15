@@ -1,0 +1,5 @@
+#!/bin/zsh
+xinput disable 11
+xinput disable 17
+brightnessctl  --device='asus::kbd_backlight' s 0 > /dev/null
+xinput disable "ELAN1201:00 04F3:3098 Touchpad"

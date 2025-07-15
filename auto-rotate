@@ -1,0 +1,33 @@
+#!/bin/zsh
+
+TOUCH="ELAN9008:00 04F3:2C82"
+STYLUS="ELAN9008:00 04F3:2C82 Stylus stylus"
+ERASER="ELAN9008:00 04F3:2C82 Stylus eraser"
+DISPLAY_NAME="eDP" 
+
+function rotate() {
+    local ori=$1
+    local matrix
+
+    case $ori in
+        normal)   matrix=(1 0 0 0 1 0 0 0 1) ;;
+        inverted) matrix=(-1 0 1 0 -1 1 0 0 1) ;;
+        left)     matrix=(0 -1 1 1 0 0 0 0 1) ;;
+        right)    matrix=(0 1 0 -1 0 1 0 0 1) ;;
+    esac
+
+    xrandr --output "$DISPLAY_NAME" --rotate "$ori"
+
+    for dev in "$TOUCH" "$STYLUS" "$ERASER"; do
+        xinput set-prop "$dev" "Coordinate Transformation Matrix" $matrix
+    done
+}
+
+monitor-sensor | while IFS= read -r line; do
+    case $line in
+        (*normal*)    rotate normal && enable-input;;
+        (*bottom-up*) rotate inverted && disable-input;;
+        (*left-up*)   rotate left && disable-input;;
+        (*right-up*)  rotate right && disable-input;;
+    esac
+done
